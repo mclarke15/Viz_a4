@@ -13,15 +13,25 @@ float[] jun;
 float[] jul;
 float[] aug;
 float[] sep;
+String[] lines;
+String[] headers;
+float[] fundStart;
+float[] fundEnd;
+float[] numCandidates; 
 int numStates = 18;
+String currSt;
+String matchSt;
+float totalFundSt;
+float totalFundEnd;
+int numCand;
 
 color chartC = color(68, 100, 173);
 color hoverC = color(222, 107, 72);
 
 void setup() {
   size(800, 600); 
-  String[] lines = loadStrings("data.csv");
-  String[] headers = split(lines[0],   ",");
+  lines = loadStrings("data.csv");
+  headers = split(lines[0],   ",");
   
   lastName = new String[lines.length - 1];
   firstName = new String[lines.length - 1];
@@ -63,14 +73,9 @@ void setup() {
  // println(jan); 
  // println(sep);
   
-  float[] fundStart = new float[lastName.length];
-  float[] fundEnd = new float[lastName.length];
-  float[] numCandidates = new float[lastName.length]; 
-   String currSt;
-   String matchSt;
-   float totalFundSt;
-   float totalFundEnd;
-   int numCand;
+  fundStart = new float[lastName.length];
+  fundEnd = new float[lastName.length];
+  numCandidates = new float[lastName.length]; 
  
   for (int i = 0; i < states.length; i++) { 
       totalFundSt = 0;
@@ -87,16 +92,15 @@ void setup() {
             numCand ++; 
          }
       }
-      //println(currSt, totalFundSt, totalFundEnd); 
+     // println(currSt, totalFundSt, totalFundEnd); 
       fundStart[i] = totalFundSt;
       fundEnd[i] = totalFundEnd;
       numCandidates[i] = numCand; 
   }
   
-  bubbleChart = new Bubble_chart(headers[12], headers[4], fundEnd, fundStart, numCandidates); 
-  bubbleChart.render();
 }
 
 void draw() {
-  
+    bubbleChart = new Bubble_chart(states, fundStart, fundEnd, numCandidates, 0, 0, width, height); 
+    bubbleChart.render();
 }
