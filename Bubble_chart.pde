@@ -6,6 +6,7 @@ class Bubble_chart {
   int yMin, yMax, xNum; 
   float padding = 0.15; 
   float pointRadius = 5;
+  float defaultRad = 5; 
 
   Bubble_chart(String xTitle, String yTitle, float[] names, float[] values, float[] bubSize) {
     this.xTitle = xTitle;
@@ -18,7 +19,7 @@ class Bubble_chart {
     this.xNum = names.length; 
   }
 
-  void render(float xPos, float yPos) {
+  void render() {
     ToolTip t = null;
     fill(255); 
     rect(0, 0, width, height);  
@@ -61,6 +62,7 @@ class Bubble_chart {
         x = xStart + spacing * i; 
         y = yStart; 
         barHeight = values[i]*ySpacing - yMin*ySpacing; 
+        pointRadius = bubSize[i] * defaultRad; 
         
         if (i != xNum - 1) {
           x2 = xStart + spacing * (i + 1); 
@@ -80,13 +82,14 @@ class Bubble_chart {
         //text(" " + names[i], spacing, 0); //put text at new origin 
         popMatrix();
         /* end rotate text */
-          
-        if (xPos >= x - pointRadius && xPos <= x + pointRadius 
-                      && yPos >= y - barHeight - pointRadius && yPos <= y - barHeight + pointRadius) {
+        println("X " + mouseX + " Y " + mouseY);   
+        if (mouseX >= x - pointRadius && mouseX <= x + pointRadius 
+                      && mouseY >= y - barHeight - pointRadius && mouseY <= y - barHeight + pointRadius) {
           fill(hoverC);
           ellipse(x, y - barHeight, pointRadius, pointRadius);
           fill(color(0, 0, 0));
-          t = new ToolTip("(" + names[i] + ", " + values[i] + ")", xPos, yPos);
+          t = new ToolTip("(" + names[i] + ", " + values[i] + ")", mouseX, mouseY);
+          println("HOVER"); 
         } else {
           fill(chartC); 
           ellipse(x, y - barHeight, pointRadius, pointRadius);

@@ -55,12 +55,13 @@ void setup() {
     aug[i-1] = float(content[12]);
     sep[i-1] = float(content[13]);
   }
-  println(lastName); 
-    println(firstName); 
-  println(states);
-  println(parties);
-  println(parties2);
-  println(jan); 
+ // println(lastName); 
+ // println(firstName); 
+ // println(states);
+ // println(parties);
+ // println(parties2);
+ // println(jan); 
+ // println(sep);
   
   float[] fundStart = new float[lastName.length];
   float[] fundEnd = new float[lastName.length];
@@ -71,27 +72,29 @@ void setup() {
    float totalFundEnd;
    int numCand;
  
-  for (int i = 0; i < lastName.length; i++) { 
+  for (int i = 0; i < states.length; i++) { 
       totalFundSt = 0;
       totalFundEnd = 0;
       numCand = 0; 
       currSt = states[i];
-      for (int k = 0; k < lastName.length; k++) {
+      for (int k = 0; k < states.length; k++) {
          matchSt = states[k];
-         if (currSt == matchSt) {
+        // println("current ", currSt, " Match: ", matchSt);
+         if (currSt.equals(matchSt) == true) {
+          // println("MATCHED############################################");
             totalFundSt += jan[k]; 
             totalFundEnd += sep[k];
             numCand ++; 
          }
       }
-      println(currSt, totalFundSt, totalFundEnd); 
+      //println(currSt, totalFundSt, totalFundEnd); 
       fundStart[i] = totalFundSt;
       fundEnd[i] = totalFundEnd;
       numCandidates[i] = numCand; 
   }
   
   bubbleChart = new Bubble_chart(headers[12], headers[4], fundEnd, fundStart, numCandidates); 
-  bubbleChart.render(mouseX, mouseY);
+  bubbleChart.render();
 }
 
 void draw() {
