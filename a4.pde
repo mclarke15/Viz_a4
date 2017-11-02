@@ -1,4 +1,6 @@
 Bubble_chart bubbleChart;
+Bar_chart barChart;
+Line_chart lineChart;
 String[] lastName;
 String[] firstName;
 String[] states;
@@ -18,6 +20,11 @@ String[] headers;
 float[] fundStart;
 float[] fundEnd;
 float[] numCandidates; 
+String[] partiesBar = {"Democrat", "Republican", "Other"};
+String[] monthNames = {"Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"};
+float[] monthNums = {0, 1, 2, 3, 4, 5, 6, 7};
+float[] monthFundDiffs; 
+float[] fundBar; 
 int numStates = 18;
 String currSt;
 String matchSt;
@@ -65,13 +72,6 @@ void setup() {
     aug[i-1] = float(content[12]);
     sep[i-1] = float(content[13]);
   }
- // println(lastName); 
- // println(firstName); 
- // println(states);
- // println(parties);
- // println(parties2);
- // println(jan); 
- // println(sep);
   
   fundStart = new float[lastName.length];
   fundEnd = new float[lastName.length];
@@ -84,23 +84,49 @@ void setup() {
       currSt = states[i];
       for (int k = 0; k < states.length; k++) {
          matchSt = states[k];
-        // println("current ", currSt, " Match: ", matchSt);
          if (currSt.equals(matchSt) == true) {
-          // println("MATCHED############################################");
             totalFundSt += jan[k]; 
             totalFundEnd += sep[k];
             numCand ++; 
          }
       }
-     // println(currSt, totalFundSt, totalFundEnd); 
       fundStart[i] = totalFundSt;
       fundEnd[i] = totalFundEnd;
       numCandidates[i] = numCand; 
   }
+   
+  float fundTot; 
+  fundBar = new float[3];
+  for (int i = 0; i < 3; i++) {
+    String currP = partiesBar[i];
+    fundTot = 0;
+    for (int k = 0; k < sep.length; k++) {
+        if (currP.equals(parties[k]) == true) {
+          fundTot += sep[k]; 
+        }
+    }
+    fundBar[i] = fundTot; 
+  }
+  
+  monthFundDiffs = new float[8];
+  monthFundDiffs[0] = feb[0] - jan[0]; 
+  monthFundDiffs[1] = mar[0] - feb[0]; 
+  monthFundDiffs[2] = apr[0] - mar[0]; 
+  monthFundDiffs[3] = may[0] - apr[0]; 
+  monthFundDiffs[4] = jun[0] - may[0]; 
+  monthFundDiffs[5] = jul[0] - jun[0]; 
+  monthFundDiffs[6] = aug[0] - jul[0]; 
+  monthFundDiffs[7] = sep[0] - aug[0]; 
   
 }
 
 void draw() {
-    bubbleChart = new Bubble_chart(states, fundStart, fundEnd, numCandidates, 0, 0, width, height); 
+    bubbleChart = new Bubble_chart(states, fundStart, fundEnd, numCandidates, 0, 0, width, height/2); 
     bubbleChart.render();
+    
+    barChart = new Bar_chart("", "", partiesBar, fundBar, 0, height/2, width/2, height/2); 
+    barChart.render();
+    
+    lineChart = new Line_chart(states, monthNums, monthFundDiffs, numCandidates, width/2, height/2, width/2, height/2); 
+    lineChart.render();
 }

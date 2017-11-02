@@ -1,6 +1,6 @@
-class Bubble_chart {
+class Line_chart {
   ArrayList<DataPair> dataPairs;
-  float defaultRadius = 20; 
+  float defaultRadius = 10; 
   float xPosChart;
   float yPosChart;
   float chartWidth;
@@ -10,10 +10,10 @@ class Bubble_chart {
   float xmin;
   float ymin;
   
-  Bubble_chart(String[] titles, float[] names, float[] values, float[] bubSize, float _xPosChart, float _yPosChart, float _chartWidth, float _chartHeight) {
+  Line_chart(String[] titles, float[] names, float[] values, float[] bubSize, float _xPosChart, float _yPosChart, float _chartWidth, float _chartHeight) {
     dataPairs = new ArrayList<DataPair>();
     for (int i = 0; i < names.length; i++) {
-        DataPair d = new DataPair(titles[i], names[i], values[i], bubSize[i] * defaultRadius/2);
+        DataPair d = new DataPair(titles[i], names[i], values[i], defaultRadius/2);
         if (dataPairs.contains(d) == false) {
            dataPairs.add(d); 
         }
@@ -39,10 +39,10 @@ class Bubble_chart {
   void render() {
     ToolTip t = null;
     float padding = 0.15;
-    float xStart = padding * chartWidth;
-    float yStart = (1 - padding) * chartHeight;
-    float xEnd = (1 - padding) * chartWidth; 
-    float yEnd = padding * chartHeight;
+    float xStart = padding * chartWidth + xPosChart;
+    float yStart = (1 - padding) * chartHeight + yPosChart;
+    float xEnd = (1 - padding) * chartWidth + xPosChart; 
+    float yEnd = padding * chartHeight + yPosChart;
     fill(255);
     rect(xPosChart, yPosChart, chartWidth, chartHeight);
     fill(0);
@@ -68,11 +68,11 @@ class Bubble_chart {
       if (mouseX >= x - d.radius && mouseX <= x + d.radius 
                       && mouseY >= y - d.radius && mouseY <= y + d.radius) {
           fill(hoverC);
-          ellipse(x, y, d.radius*2, d.radius*2); 
-          fill(255);
-          textAlign(CENTER, CENTER);
-          textSize(10);
-          text(d.name, x, y);
+         ellipse(x, y, d.radius*2, d.radius*2); 
+         // fill(255);
+         // textAlign(CENTER, CENTER);
+         // textSize(10);
+         // text(d.name, x, y);
           fill(color(0, 0, 0));
           if (d.xValue == 0) {
             lx = 0;
@@ -88,10 +88,10 @@ class Bubble_chart {
         } else {
           fill(chartC); 
           ellipse(x, y, d.radius*2, d.radius*2); 
-          fill(255);
-          textAlign(CENTER, CENTER);
-          textSize(10);
-          text(d.name, x, y);
+         // fill(255);
+         // textAlign(CENTER, CENTER);
+         // textSize(10);
+          //text(d.name, x, y);
         }
     }
     if (t != null) {
@@ -100,7 +100,7 @@ class Bubble_chart {
     
     int NUMTICKS = 10;
     float yInterval = (ymax - ymin) / NUMTICKS;
-    float ySpacing = (yStart - yEnd)/NUMTICKS;
+    float ySpacing = (yEnd - yStart)/NUMTICKS;
     //float ySpacing = (chartHeight - 2*padding*chartHeight) / (log(ymax) - ymin);
     println("ySpacing: " + ySpacing);
     println("yEnd: " + yEnd + " yStart: " + yStart);
@@ -112,12 +112,8 @@ class Bubble_chart {
       fill(0); 
       //println("xStart " + xStart + " yStart " + yStart + " y "+ (yStart - i*ySpacing));
      // println(i);
-      text(i + " ", xStart, yStart - i*ySpacing);
+     // text(i + " ", xStart, yStart + i*ySpacing);
       popStyle(); 
     } 
-  }
-  
-  
-  
-  
+  } 
 }
