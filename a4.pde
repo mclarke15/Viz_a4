@@ -1,3 +1,4 @@
+import java.util.*;
 Bubble_chart bubbleChart;
 Bar_chart barChart;
 Line_chart lineChart;
@@ -23,7 +24,7 @@ float[] numCandidates;
 String[] partiesBar = {"Democrat", "Republican", "Other"};
 String[] monthNames = {"Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep"};
 float[] monthNums = {0, 1, 2, 3, 4, 5, 6, 7};
-float[] monthFundDiffs; 
+float[][] CandidateDiffs;
 float[] fundBar; 
 int numStates = 18;
 String currSt;
@@ -54,7 +55,8 @@ void setup() {
   jul = new float[lines.length - 1];
   aug = new float[lines.length - 1];
   sep = new float[lines.length - 1];
-    
+
+
   for(int i = 1; i < lines.length; i++){
     String[] content = split(lines[i], ",");
     lastName[i-1] = content[0].replace('"', ' ');
@@ -108,15 +110,17 @@ void setup() {
     fundBar[i] = fundTot; 
   }
   
-  monthFundDiffs = new float[8];
-  monthFundDiffs[0] = feb[0] - jan[0]; 
-  monthFundDiffs[1] = mar[0] - feb[0]; 
-  monthFundDiffs[2] = apr[0] - mar[0]; 
-  monthFundDiffs[3] = may[0] - apr[0]; 
-  monthFundDiffs[4] = jun[0] - may[0]; 
-  monthFundDiffs[5] = jul[0] - jun[0]; 
-  monthFundDiffs[6] = aug[0] - jul[0]; 
-  monthFundDiffs[7] = sep[0] - aug[0]; 
+  CandidateDiffs = new float[8][firstName.length];
+  for (int i = 0; i < firstName.length; i++) {
+    CandidateDiffs[0][i] = feb[i] - jan[i]; 
+    CandidateDiffs[1][i] = mar[i] - feb[i]; 
+    CandidateDiffs[2][i] = apr[i] - mar[i]; 
+    CandidateDiffs[3][i] = may[i] - apr[i]; 
+    CandidateDiffs[4][i] = jun[i] - may[i]; 
+    CandidateDiffs[5][i] = jul[i] - jun[i]; 
+    CandidateDiffs[6][i] = aug[i] - jul[i]; 
+    CandidateDiffs[7][i] = sep[i] - aug[i];  
+  }
   
 }
 
@@ -127,6 +131,6 @@ void draw() {
     barChart = new Bar_chart("", "", partiesBar, fundBar, 0, height/2, width/2, height/2); 
     barChart.render();
     
-    lineChart = new Line_chart(states, monthNums, monthFundDiffs, numCandidates, width/2, height/2, width/2, height/2); 
+    lineChart = new Line_chart(lastName, monthNums, CandidateDiffs, numCandidates, width/2, height/2, width/2, height/2); 
     lineChart.render();
 }

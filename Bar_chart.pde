@@ -28,7 +28,7 @@ class Bar_chart {
     pushMatrix();
     translate(xPosChart, yPosChart);
     color chartB = color(0);
-    //ToolTip t = null;
+    ToolTip t = null;
     fill(255); 
     rect(0, 0, chartWidth, chartHeight);
     fill(0); 
@@ -59,14 +59,19 @@ class Bar_chart {
         text(" " + names[i], 30, 8); //put text at new origin 
         popMatrix();
         /* end rotate text */
+        
+        //xPosChart, yPosChart
           
-       /* if (mouseX >= x && mouseX <= x + barWidth 
-                      && mouseY >= y - barHeight && mouseY <= y) {
+        if (mouseX >= x + xPosChart && mouseX <= x + xPosChart + barWidth 
+                      && mouseY >= y + yPosChart - barHeight && mouseY <= y + yPosChart) {
           fill(hoverC);
           rect(x, y - barHeight, barWidth, barHeight);
           fill(color(0, 0, 0));
-          t = new ToolTip("(" + names[i] + ", " + values[i] + ")", mouseX, mouseY);
-        } else { */
+          t = new ToolTip("(" + names[i] + ", " + values[i] + ")", mouseX, mouseY); 
+          println("merp"); 
+          println(mouseX);
+          println(mouseY); 
+        } else { 
           if (names[i].equals("Democrat")) {
             chartB = color(0, 0, 255);
           } else if (names[i].equals("Republican")) {
@@ -76,13 +81,12 @@ class Bar_chart {
           }
           fill(chartB); 
           rect(x, y - barHeight, barWidth, barHeight);
-           
-        //}
+        }
         
     }
-    /*if (t != null) {
+    if (t != null) {
       t.render();
-    }*/
+    }
     
     int NUMTICKS = 10;
     float yInterval = yMax / NUMTICKS;

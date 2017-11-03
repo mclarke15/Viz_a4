@@ -102,10 +102,10 @@ class Bubble_chart {
     float yInterval = (ymax - ymin) / NUMTICKS;
     float ySpacing = (yStart - yEnd)/NUMTICKS;
     //float ySpacing = (chartHeight - 2*padding*chartHeight) / (log(ymax) - ymin);
-    println("ySpacing: " + ySpacing);
-    println("yEnd: " + yEnd + " yStart: " + yStart);
-    println("yInterval: " + yInterval);
-    println("ymax: " + ymax + " ymin: " + ymin); 
+   // println("ySpacing: " + ySpacing);
+   // println("yEnd: " + yEnd + " yStart: " + yStart);
+   // println("yInterval: " + yInterval);
+   // println("ymax: " + ymax + " ymin: " + ymin); 
     for (float i = ymin; i <= ymax; i+=yInterval) {
       pushStyle(); 
       textAlign(RIGHT); 
