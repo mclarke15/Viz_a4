@@ -19,7 +19,6 @@ class ToolTip {
     textAlign(LEFT, TOP); 
     text(text, x, y - offset);
     popStyle();
-    println("UGH"); 
-    println(x + " " + y); 
+    //println(x + " " + y); 
   }
 }

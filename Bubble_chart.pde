@@ -10,7 +10,7 @@ class Bubble_chart {
   float xmin;
   float ymin;
   
-  Bubble_chart(String[] titles, float[] names, float[] values, float[] bubSize, float _xPosChart, float _yPosChart, float _chartWidth, float _chartHeight) {
+  Bubble_chart(String[] titles, float[] names, float[] values, float[] bubSize, float _xPosChart, float _yPosChart, float _chartWidth, float _chartHeight) { 
     dataPairs = new ArrayList<DataPair>();
     for (int i = 0; i < names.length; i++) {
         DataPair d = new DataPair(titles[i], names[i], values[i], bubSize[i] * defaultRadius/2);
@@ -28,16 +28,23 @@ class Bubble_chart {
      xmin = 0; 
     } else {
      xmin = log(min(names));
+    } 
+    if (xmin == xmax) {
+       xmin = 0;  
     }
     if (min(values) == 0) {
      ymin = 0; 
     } else {
      ymin = log(min(values));
     }
+    if (ymin == ymax) {
+       ymin = 0;  
+    }
   }
   
   void render() {
     ToolTip t = null;
+    String hov = null; 
     float padding = 0.15;
     float xStart = padding * chartWidth;
     float yStart = (1 - padding) * chartHeight;
@@ -64,7 +71,6 @@ class Bubble_chart {
       }
       float x = (lx - xmin) / (xmax - xmin) * (xEnd - xStart) + xStart; 
       float y = (ly - ymin) / (ymax - ymin) * (yEnd - yStart) + yStart; 
-     // println("x: " + x + " y: " + y); 
       if (mouseX >= x - d.radius && mouseX <= x + d.radius 
                       && mouseY >= y - d.radius && mouseY <= y + d.radius) {
           fill(hoverC);
@@ -83,20 +89,23 @@ class Bubble_chart {
             ly = 0;
           } else {
             ly = log(d.yValue); 
-      }
+          }
           t = new ToolTip(d.name + " (" + d.xValue + ", " + d.yValue + ")", mouseX, mouseY);
-        } else {
+          hov = d.name;  
+      } else {
           fill(chartC); 
           ellipse(x, y, d.radius*2, d.radius*2); 
           fill(255);
           textAlign(CENTER, CENTER);
           textSize(10);
           text(d.name, x, y);
-        }
+      }
     }
     if (t != null) {
       t.render();
     }
+    hoverInd = hov; 
+
     
     int NUMTICKS = 10;
     float yInterval = (ymax - ymin) / NUMTICKS;

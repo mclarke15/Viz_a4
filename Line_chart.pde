@@ -19,7 +19,7 @@ class Line_chart {
       dataPairs = new ArrayList<DataPair>();
       for (int k = 0; k < 8; k++) {
         DataPair d = new DataPair(titles[i], names[k], values[k][i], defaultRadius/2);
-        yVals[i * k] = values[k][i]; 
+        yVals[k + i * k ] = values[k][i]; 
         if (dataPairs.contains(d) == false) {
            dataPairs.add(d); 
         }
@@ -33,6 +33,7 @@ class Line_chart {
     xmax = max(names);
     //ymax = log(max(values));
     ymax = max(yVals); 
+    println(yVals);
     xmin = min(names);
   
    // if (min(values) == 0) {
@@ -40,6 +41,7 @@ class Line_chart {
    // } else {
      //ymin = log(min(values));
     ymin = min(yVals);
+    println("ymin " + ymin + " ymax " + ymax); 
    // }
   }
   
@@ -76,11 +78,13 @@ class Line_chart {
         ly = d.yValue; 
         ly2 = d2.yValue;
         //}
+        //println("ly: " + ly+ " ly2: " + ly2); 
+        //println("ymin: " + ymin + " ymax: " + ymax);
         float x = (lx - xmin) / (xmax - xmin) * (xEnd - xStart) + xStart; 
         float y = (ly - ymin) / (ymax - ymin) * (yEnd - yStart) + yStart; 
         float x2 = (lx2 - xmin) / (xmax - xmin) * (xEnd - xStart) + xStart; 
         float y2 = (ly2 - ymin) / (ymax - ymin) * (yEnd - yStart) + yStart; 
-       // println("x: " + x + " y: " + y); 
+        //println("y: " + y + " y2: " + y2); 
         if (mouseX >= x - d.radius && mouseX <= x + d.radius 
                         && mouseY >= y - d.radius && mouseY <= y + d.radius) {
             if (i != 7) {

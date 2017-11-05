@@ -68,9 +68,6 @@ class Bar_chart {
           rect(x, y - barHeight, barWidth, barHeight);
           fill(color(0, 0, 0));
           t = new ToolTip("(" + names[i] + ", " + values[i] + ")", mouseX, mouseY); 
-          println("merp"); 
-          println(mouseX);
-          println(mouseY); 
         } else { 
           if (names[i].equals("Democrat")) {
             chartB = color(0, 0, 255);

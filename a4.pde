@@ -16,6 +16,7 @@ float[] jun;
 float[] jul;
 float[] aug;
 float[] sep;
+String[] lines0;
 String[] lines;
 String[] headers;
 float[] fundStart;
@@ -32,13 +33,26 @@ String matchSt;
 float totalFundSt;
 float totalFundEnd;
 int numCand;
+String stateInd = "all"; 
+String hoverInd = null; 
 
 color chartC = color(68, 100, 173);
-color hoverC = color(222, 107, 72);
+color hoverC = color(222, 107, 72); 
+String[] content;
 
 void setup() {
-  size(800, 600); 
-  lines = loadStrings("data.csv");
+  size(1000, 800); 
+  
+}
+
+void draw() {
+  lines0 = loadStrings("data.csv");
+  if (stateInd.equals("all")) {
+       lines = lines0;  
+  }
+  else {
+      lines = filterLines(stateInd, lines0); 
+  }    
   headers = split(lines[0],   ",");
   
   lastName = new String[lines.length - 1];
@@ -58,7 +72,7 @@ void setup() {
 
 
   for(int i = 1; i < lines.length; i++){
-    String[] content = split(lines[i], ",");
+    content = split(lines[i], ",");
     lastName[i-1] = content[0].replace('"', ' ');
     firstName[i-1] = content[1].replace('"', ' ');
     states[i-1] = content[2];
@@ -122,15 +136,50 @@ void setup() {
     CandidateDiffs[7][i] = sep[i] - aug[i];  
   }
   
-}
-
-void draw() {
+    println("hoverind: " + hoverInd);
+    println("stateind: " + stateInd);
     bubbleChart = new Bubble_chart(states, fundStart, fundEnd, numCandidates, 0, 0, width, height/2); 
     bubbleChart.render();
-    
+   
     barChart = new Bar_chart("", "", partiesBar, fundBar, 0, height/2, width/2, height/2); 
     barChart.render();
     
     lineChart = new Line_chart(lastName, monthNums, CandidateDiffs, numCandidates, width/2, height/2, width/2, height/2); 
     lineChart.render();
+}
+
+void mouseClicked() {
+  if (mouseButton == LEFT && hoverInd != null) {
+     stateInd = hoverInd; 
+  } 
+  if (mouseButton == RIGHT) {
+     stateInd = "all";  
+  }
+}
+
+String[] filterLines(String ind, String[] linesIn) {
+  ArrayList<String> keepLines = new ArrayList<String>();
+  String[] content;
+  String ret[]; 
+  keepLines.add(linesIn[0]);
+  if (ind.length() == 2) {
+    for(int i = 1; i < linesIn.length; i++){
+      content = split(linesIn[i], ",");
+      if (content[2].equals(ind)) {
+        keepLines.add(linesIn[i]); 
+      }
+    }
+  } else {
+    for(int i = 1; i < linesIn.length; i++){
+      content = split(linesIn[i], ",");
+      if (content[3].equals(ind)) {
+        keepLines.add(linesIn[i]); 
+      }
+    }
+  }
+  ret = new String[keepLines.size()];
+  for (int k = 0; k < keepLines.size(); k++) { 
+    ret[k] = keepLines.get(k); 
+  }
+  return ret; 
 }
