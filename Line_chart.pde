@@ -12,13 +12,13 @@ class Line_chart {
   float ymin;
   float[] yVals;
   
-  Line_chart(String[] titles, float[] names, float[][] values, float[] bubSize, float _xPosChart, float _yPosChart, float _chartWidth, float _chartHeight) {
+  Line_chart(String[] titles, float[] names, float[][] values, String[][] st, String[][] pt, float _xPosChart, float _yPosChart, float _chartWidth, float _chartHeight) {
     CandidatesPairs = new ArrayList<ArrayList>();
     yVals = new float[titles.length * 8]; 
     for (int i = 0; i < titles.length; i++) {
       dataPairs = new ArrayList<DataPair>();
       for (int k = 0; k < 8; k++) {
-        DataPair d = new DataPair(titles[i], names[k], values[k][i], defaultRadius/2);
+        DataPair d = new DataPair(titles[i], names[k], values[k][i], defaultRadius/2, st[k][i], pt[k][i]);
         yVals[k + i * k ] = values[k][i]; 
         if (dataPairs.contains(d) == false) {
            dataPairs.add(d); 
@@ -33,7 +33,7 @@ class Line_chart {
     xmax = max(names);
     //ymax = log(max(values));
     ymax = max(yVals); 
-    println(yVals);
+    //println(yVals);
     xmin = min(names);
   
    // if (min(values) == 0) {
@@ -41,7 +41,7 @@ class Line_chart {
    // } else {
      //ymin = log(min(values));
     ymin = min(yVals);
-    println("ymin " + ymin + " ymax " + ymax); 
+   // println("ymin " + ymin + " ymax " + ymax); 
    // }
   }
   
@@ -92,13 +92,13 @@ class Line_chart {
             }
             fill(hoverC);
             ellipse(x, y, d.radius*2, d.radius*2); 
-            
+            hoverInd = d.st; 
            // fill(255);
            // textAlign(CENTER, CENTER);
            // textSize(10);
            // text(d.name, x, y);
             fill(color(0, 0, 0));
-            if (d.xValue == 0) {
+          /*  if (d.xValue == 0) {
               lx = 0;
             } else {
               lx = log(d.xValue); 
@@ -107,13 +107,28 @@ class Line_chart {
               ly = 0;
             } else {
               ly = log(d.yValue); 
-        }
-            t = new ToolTip(d.name + " (" + d.xValue + ", " + d.yValue + ")", mouseX, mouseY);
+            }
+            */
+            t = new ToolTip(d.name + " (" + monthNames[int(d.xValue)] + ", " + d.yValue + ")", mouseX, mouseY);
           } else {
             if (i != 7) {
               line(x, y, x2, y2);
             }
-            fill(chartC); 
+            if (stateHovInd != null) {
+              if (stateHovInd.equals(d.st)) {
+               fill(hoverC); 
+              } else {
+               fill(chartC);  
+              }
+            } else if (partyHovInd != null) {
+              if (partyHovInd.equals(d.pty)) {
+               fill(hoverC); 
+              } else {
+               fill(chartC);  
+              }
+            } else {
+              fill(chartC); 
+            }
             ellipse(x, y, d.radius*2, d.radius*2); 
            // fill(255);
            // textAlign(CENTER, CENTER);

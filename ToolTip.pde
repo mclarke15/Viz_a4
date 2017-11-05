@@ -14,10 +14,10 @@ class ToolTip {
      
     fill(255);
     rectMode(CORNER);
-    rect(x, y - offset, textWidth(text), textAscent() + textDescent(), 5, 5, 5, 5);
+    rect(x - textWidth(text), y - offset, textWidth(text), textAscent() + textDescent(), 5, 5, 5, 5);
     fill(0);
     textAlign(LEFT, TOP); 
-    text(text, x, y - offset);
+    text(text, x - textWidth(text), y - offset);
     popStyle();
     //println(x + " " + y); 
   }

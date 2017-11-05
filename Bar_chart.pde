@@ -29,6 +29,7 @@ class Bar_chart {
     translate(xPosChart, yPosChart);
     color chartB = color(0);
     ToolTip t = null;
+    String hov = null; 
     fill(255); 
     rect(0, 0, chartWidth, chartHeight);
     fill(0); 
@@ -68,6 +69,7 @@ class Bar_chart {
           rect(x, y - barHeight, barWidth, barHeight);
           fill(color(0, 0, 0));
           t = new ToolTip("(" + names[i] + ", " + values[i] + ")", mouseX, mouseY); 
+          hov = names[i]; 
         } else { 
           if (names[i].equals("Democrat")) {
             chartB = color(0, 0, 255);
@@ -84,7 +86,7 @@ class Bar_chart {
     if (t != null) {
       t.render();
     }
-    
+    hoverInd2 = hov; 
     int NUMTICKS = 10;
     float yInterval = yMax / NUMTICKS;
     for (int i = yMin; i <= yMax; i+=yInterval) {

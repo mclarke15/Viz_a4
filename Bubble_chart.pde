@@ -13,7 +13,7 @@ class Bubble_chart {
   Bubble_chart(String[] titles, float[] names, float[] values, float[] bubSize, float _xPosChart, float _yPosChart, float _chartWidth, float _chartHeight) { 
     dataPairs = new ArrayList<DataPair>();
     for (int i = 0; i < names.length; i++) {
-        DataPair d = new DataPair(titles[i], names[i], values[i], bubSize[i] * defaultRadius/2);
+        DataPair d = new DataPair(titles[i], names[i], values[i], bubSize[i] * defaultRadius/2, "", "");
         if (dataPairs.contains(d) == false) {
            dataPairs.add(d); 
         }
@@ -93,7 +93,17 @@ class Bubble_chart {
           t = new ToolTip(d.name + " (" + d.xValue + ", " + d.yValue + ")", mouseX, mouseY);
           hov = d.name;  
       } else {
-          fill(chartC); 
+        
+        if (stateHovInd != null) {
+              if (stateHovInd.equals(d.name)) {
+               fill(hoverC); 
+              } else {
+               fill(chartC);  
+              }
+         } else {
+           fill(chartC);
+         }
+          //fill(chartC); 
           ellipse(x, y, d.radius*2, d.radius*2); 
           fill(255);
           textAlign(CENTER, CENTER);
