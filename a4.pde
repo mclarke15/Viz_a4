@@ -36,6 +36,25 @@ String matchSt;
 float totalFundSt;
 float totalFundEnd;
 int numCand;
+button AR;
+button CA;
+button FL;
+button KY;
+button LA;
+button MA;
+button MD;
+button NJ;
+button NM;
+button NY;
+button OH;
+button PA;
+button SC;
+button TX;
+button UT;
+button VA;
+button VT;
+button WI;
+
 String stateInd = "all";
 String stateHovInd = "all"; 
 String partyInd = "all"; 
@@ -49,7 +68,7 @@ String[] content;
 
 void setup() {
   size(1000, 600); 
-  
+  makeButtons();
 }
 
 void draw() {
@@ -66,6 +85,8 @@ void draw() {
     
     lineChart = new Line_chart(lastName, monthNums, CandidateDiffs, sts, ptys, width/2, height/2, width/2, height/2); 
     lineChart.render();
+    
+    drawButtons();
 }
 
 void mouseClicked() {
@@ -78,6 +99,63 @@ void mouseClicked() {
   if (mouseButton == RIGHT) {
      stateInd = "all";  
      partyInd = "all";
+  }
+  if (mouseButton == LEFT) {
+    if (mouseX > AR.X1 && mouseX < AR.X2 && mouseY > AR.Y1 && mouseY < AR.Y2) {
+       stateInd = "AR";
+       partyInd = "all";
+    }  if (mouseX > CA.X1 && mouseX < CA.X2 && mouseY > CA.Y1 && mouseY < CA.Y2) {
+       stateInd = "CA";
+       partyInd = "all";
+    }  if (mouseX > FL.X1 && mouseX < FL.X2 && mouseY > FL.Y1 && mouseY < FL.Y2) {
+       stateInd = "FL";
+       partyInd = "all";
+    }  if (mouseX > KY.X1 && mouseX < KY.X2 && mouseY > KY.Y1 && mouseY < KY.Y2) {
+       stateInd = "KY";
+       partyInd = "all";
+    }  if (mouseX > LA.X1 && mouseX < LA.X2 && mouseY > LA.Y1 && mouseY < LA.Y2) {
+       stateInd = "LA";
+       partyInd = "all";
+    }  if (mouseX > MA.X1 && mouseX < MA.X2 && mouseY > MA.Y1 && mouseY < MA.Y2) {
+       stateInd = "MA";
+       partyInd = "all";
+    }  if (mouseX > MD.X1 && mouseX < MD.X2 && mouseY > MD.Y1 && mouseY < MD.Y2) {
+       stateInd = "MD";
+       partyInd = "all";
+    }  if (mouseX > NJ.X1 && mouseX < NJ.X2 && mouseY > NJ.Y1 && mouseY < NJ.Y2) {
+       stateInd = "NJ";
+       partyInd = "all";
+    }  if (mouseX > NM.X1 && mouseX < NM.X2 && mouseY > NM.Y1 && mouseY < NM.Y2) {
+       stateInd = "NM";
+       partyInd = "all";
+    }  if (mouseX > NY.X1 && mouseX < NY.X2 && mouseY > NY.Y1 && mouseY < NY.Y2) {
+       stateInd = "NY";
+       partyInd = "all";
+    }  if (mouseX > OH.X1 && mouseX < OH.X2 && mouseY > OH.Y1 && mouseY < OH.Y2) {
+       stateInd = "OH";
+       partyInd = "all";
+    }  if (mouseX > PA.X1 && mouseX < PA.X2 && mouseY > PA.Y1 && mouseY < PA.Y2) {
+       stateInd = "PA";
+       partyInd = "all";
+    }  if (mouseX > SC.X1 && mouseX < SC.X2 && mouseY > SC.Y1 && mouseY < SC.Y2) {
+       stateInd = "SC";
+       partyInd = "all";
+    }  if (mouseX > TX.X1 && mouseX < TX.X2 && mouseY > TX.Y1 && mouseY < TX.Y2) {
+       stateInd = "TX";
+       partyInd = "all";
+    }  if (mouseX > UT.X1 && mouseX < UT.X2 && mouseY > UT.Y1 && mouseY < UT.Y2) {
+       stateInd = "UT";
+       partyInd = "all";
+    }  if (mouseX > VA.X1 && mouseX < VA.X2 && mouseY > VA.Y1 && mouseY < VA.Y2) {
+       stateInd = "VA";
+       partyInd = "all";
+    }  if (mouseX > VT.X1 && mouseX < VT.X2 && mouseY > VT.Y1 && mouseY < VT.Y2) {
+       stateInd = "VT";
+       partyInd = "all";
+    }  if (mouseX > WI.X1 && mouseX < WI.X2 && mouseY > WI.Y1 && mouseY < WI.Y2) {
+       stateInd = "WI";
+       partyInd = "all";
+    }
   }
 }
 
@@ -224,4 +302,48 @@ void readLines() {
     ptys[6][i] = parties[i];
     ptys[7][i] = parties[i];
   } 
+}
+
+void makeButtons() {
+   color buttonColor = color(164, 176, 245);
+   AR = new button(buttonColor, "AR", 20, 20, 0, 0, 10);
+   CA = new button(buttonColor, "CA", 20, 20, 20, 0, 10);
+   FL = new button(buttonColor, "FL", 20, 20, 40, 0, 10);
+   KY = new button(buttonColor, "KY", 20, 20, 60, 0, 10);
+   LA = new button(buttonColor, "LA", 20, 20, 80, 0, 10);
+   MA = new button(buttonColor, "MA", 20, 20, 100, 0, 10);
+   MD = new button(buttonColor, "MD", 20, 20, 120, 0, 10);
+   NJ = new button(buttonColor, "NJ", 20, 20, 140, 0, 10);
+   NM = new button(buttonColor, "NM", 20, 20, 160, 0, 10);
+   NY = new button(buttonColor, "NY", 20, 20, 180, 0, 10);
+   OH = new button(buttonColor, "OH", 20, 20, 200, 0, 10);
+   PA = new button(buttonColor, "PA", 20, 20, 220, 0, 10);
+   SC = new button(buttonColor, "SC", 20, 20, 240, 0, 10);
+   TX = new button(buttonColor, "TX", 20, 20, 260, 0, 10);
+   UT = new button(buttonColor, "UT", 20, 20, 280, 0, 10);
+   VA = new button(buttonColor, "VA", 20, 20, 300, 0, 10);
+   VT = new button(buttonColor, "VT",20, 20, 320, 0, 10);
+   WI = new button(buttonColor, "WI", 20, 20, 340, 0, 10);
+
+}
+
+void drawButtons() {
+ AR.drawButton();
+ CA.drawButton();
+ FL.drawButton();
+ KY.drawButton();
+ LA.drawButton();
+ MA.drawButton();
+ MD.drawButton();
+ NJ.drawButton();
+ NM.drawButton();
+ NY.drawButton();
+ OH.drawButton();
+ PA.drawButton();
+ SC.drawButton();
+ TX.drawButton();
+ UT.drawButton();
+ VA.drawButton();
+ VT.drawButton();
+ WI.drawButton();
 }

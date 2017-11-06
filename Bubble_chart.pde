@@ -80,7 +80,7 @@ class Bubble_chart {
     float yInterval = (ymax - ymin) / NUMTICKS;
     float ySpacing = (yStart - yEnd)/NUMTICKS;
     int count = 0;
-    for (float i = ymin; i <= ymax + yInterval; i+=yInterval) {
+    for (float i = ymin; i <= ymax; i+=yInterval) {
       pushStyle(); 
       textAlign(RIGHT); 
       fill(0); 
@@ -89,10 +89,10 @@ class Bubble_chart {
       count++; 
     } 
     pushMatrix();
-    translate(xStart, (yStart - yEnd) / 2); //change origin 
+    translate(xStart - 70 , yEnd + 100); //change origin 
     rotate(PI/2); //rotate around new origin 
     fill(0);
-    text("End Funding (Log($Sep))", xStart*0.5, (yStart - yEnd)/4);
+    text("End Funding (Log($Sep))", 0, 0);
     popMatrix();
 
     
@@ -125,7 +125,7 @@ class Bubble_chart {
           popStyle(); 
           countx++; 
         } 
-        text("Start Funding (Log($Feb))", (xEnd - xStart)/1.5, yStart + 1.5*defaultRadius);
+        text("Start Funding (Log($Feb))", (xEnd - xStart)/1.5, yStart + 2*defaultRadius - 5);
       }
        
       if (mouseX >= x - d.radius && mouseX <= x + d.radius 

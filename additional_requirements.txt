@@ -1,0 +1,5 @@
+Additional Requirements:
+
+(1) Two of our views support filtering--the Bubble chart and the bar chart. 
+(2) We have buttons (one for each state) so that users can select states for 
+    filtering that may be occulded in the views. 
