@@ -19,7 +19,7 @@ class Line_chart {
       dataPairs = new ArrayList<DataPair>();
       for (int k = 0; k < 8; k++) {
         DataPair d = new DataPair(titles[i], names[k], values[k][i], defaultRadius/2, st[k][i], pt[k][i]);
-        yVals[k + i * k ] = values[k][i]; 
+        yVals[i*8 + k] = values[k][i]; 
         if (dataPairs.contains(d) == false) {
            dataPairs.add(d); 
         }
@@ -30,19 +30,29 @@ class Line_chart {
     yPosChart = _yPosChart;
     chartWidth = _chartWidth;
     chartHeight = _chartHeight;
-    xmax = max(names);
-    //ymax = log(max(values));
+    
+    //set max 
+    xmax = max(names); 
     ymax = max(yVals); 
-    //println(yVals);
+    //set min
     xmin = min(names);
-  
-   // if (min(values) == 0) {
-   //  ymin = 0; 
-   // } else {
-     //ymin = log(min(values));
-    ymin = min(yVals);
-   // println("ymin " + ymin + " ymax " + ymax); 
-   // }
+    ymin = min(yVals); 
+    //check max and min 
+    if (xmin == xmax) {
+       if (xmax == 0) {
+         xmax = 100; 
+       } else {
+         xmin = 0;  
+       }
+    }
+    if (ymin == ymax) {
+      if (ymax == 0) {
+        ymax = 100;  
+      } else {
+        ymin = 0;  
+      }
+    }
+
   }
   
   void render() {
@@ -58,6 +68,25 @@ class Line_chart {
     line(xStart, yStart, xStart, yEnd);
     line(xStart, yStart, xEnd, yStart);
     
+    int NUMTICKS = 10;
+    float yInterval = (ymax - ymin) / NUMTICKS;
+    float ySpacing = (yStart - yEnd)/NUMTICKS;
+    int count = 0;
+    for (float i = ymin; i <= ymax; i+=yInterval) {
+      pushStyle(); 
+      textAlign(RIGHT); 
+      fill(0); 
+      text(String.format("%.02f", i / 1000000) + "   ", xStart, yStart - count*ySpacing);
+      popStyle(); 
+      count++; 
+    }
+    pushMatrix();
+    translate(xStart - 50, yEnd + 100); //change origin 
+    rotate(PI/2); //rotate around new origin 
+    fill(0);
+    text("Difference in Funding ($)", 0, 0);
+    popMatrix();
+    
     for (int j = 0; j < CandidatesPairs.size(); j ++) {
       ArrayList<DataPair> cand = CandidatesPairs.get(j);  
       for (int i = 0; i < dataPairs.size(); i++) {
@@ -70,21 +99,23 @@ class Line_chart {
         float lx2, ly2; 
         lx = d.xValue;
         lx2 = d2.xValue;
-        
-        //if (d.yValue == 0) {
-        //  ly = 0;
-        //} else {
-        //   ly = log(d.yValue); 
         ly = d.yValue; 
         ly2 = d2.yValue;
-        //}
-        //println("ly: " + ly+ " ly2: " + ly2); 
-        //println("ymin: " + ymin + " ymax: " + ymax);
+
         float x = (lx - xmin) / (xmax - xmin) * (xEnd - xStart) + xStart; 
         float y = (ly - ymin) / (ymax - ymin) * (yEnd - yStart) + yStart; 
         float x2 = (lx2 - xmin) / (xmax - xmin) * (xEnd - xStart) + xStart; 
         float y2 = (ly2 - ymin) / (ymax - ymin) * (yEnd - yStart) + yStart; 
-        //println("y: " + y + " y2: " + y2); 
+        
+        if (j == 0) {
+          pushMatrix();
+          translate(x, yStart); //change origin 
+          rotate(PI/2); //rotate around new origin 
+          fill(0);
+          text(monthNames[int(d.xValue)], 30, 8); //put text at new origin 
+          popMatrix();
+        }
+
         if (mouseX >= x - d.radius && mouseX <= x + d.radius 
                         && mouseY >= y - d.radius && mouseY <= y + d.radius) {
             if (i != 7) {
@@ -93,22 +124,6 @@ class Line_chart {
             fill(hoverC);
             ellipse(x, y, d.radius*2, d.radius*2); 
             hoverInd = d.st; 
-           // fill(255);
-           // textAlign(CENTER, CENTER);
-           // textSize(10);
-           // text(d.name, x, y);
-            fill(color(0, 0, 0));
-          /*  if (d.xValue == 0) {
-              lx = 0;
-            } else {
-              lx = log(d.xValue); 
-            }
-            if (d.yValue == 0) {
-              ly = 0;
-            } else {
-              ly = log(d.yValue); 
-            }
-            */
             t = new ToolTip(d.name + " (" + monthNames[int(d.xValue)] + ", " + d.yValue + ")", mouseX, mouseY);
           } else {
             if (i != 7) {
@@ -129,34 +144,13 @@ class Line_chart {
             } else {
               fill(chartC); 
             }
-            ellipse(x, y, d.radius*2, d.radius*2); 
-           // fill(255);
-           // textAlign(CENTER, CENTER);
-           // textSize(10);
-            //text(d.name, x, y);
+            ellipse(x, y, d.radius*2, d.radius*2);
           }
       }
       if (t != null) {
         t.render();
       }
-      
-      int NUMTICKS = 10;
-      float yInterval = (ymax - ymin) / NUMTICKS;
-      float ySpacing = (yEnd - yStart)/NUMTICKS;
-      //float ySpacing = (chartHeight - 2*padding*chartHeight) / (log(ymax) - ymin);
-      //println("ySpacing: " + ySpacing);
-      //println("yEnd: " + yEnd + " yStart: " + yStart);
-      //println("yInterval: " + yInterval);
-      //println("ymax: " + ymax + " ymin: " + ymin); 
-      for (float i = ymin; i <= ymax; i+=yInterval) {
-        pushStyle(); 
-        textAlign(RIGHT); 
-        fill(0); 
-        //println("xStart " + xStart + " yStart " + yStart + " y "+ (yStart - i*ySpacing));
-       // println(i);
-       // text(i + " ", xStart, yStart + i*ySpacing);
-        popStyle(); 
-      } 
     } 
-  }
+
+  } 
 }

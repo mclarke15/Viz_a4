@@ -59,9 +59,6 @@ class Bar_chart {
         fill(0);
         text(" " + names[i], 30, 8); //put text at new origin 
         popMatrix();
-        /* end rotate text */
-        
-        //xPosChart, yPosChart
           
         if (mouseX >= x + xPosChart && mouseX <= x + xPosChart + barWidth 
                       && mouseY >= y + yPosChart - barHeight && mouseY <= y + yPosChart) {
@@ -96,6 +93,12 @@ class Bar_chart {
       text(i + " ", xStart, yStart - i*ySpacing); 
       popStyle(); 
     } 
+    pushMatrix();
+    translate(xStart - 75, yStart - 100); //change origin 
+    rotate(PI/2); //rotate around new origin 
+    fill(0);
+    text("Total Funding ($)", 0, 0);
+    popMatrix();
     
     line(padding*chartWidth, padding*chartHeight, padding*chartWidth, (1 - padding)*chartHeight);  
     pushMatrix();

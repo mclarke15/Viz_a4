@@ -56,8 +56,8 @@ void draw() {
     readLines();
     stateHovInd = hoverInd; 
     partyHovInd = hoverInd2; 
-    println("hoverind: " + hoverInd);
-    println("stateind: " + stateInd);
+    //println("hoverind: " + hoverInd);
+    //println("stateind: " + stateInd);
     bubbleChart = new Bubble_chart(states, fundStart, fundEnd, numCandidates, 0, 0, width, height/2); 
     bubbleChart.render();
    
